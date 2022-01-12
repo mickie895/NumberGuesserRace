@@ -2,11 +2,18 @@ package com.gsoft.practice.numberguesser;
 import java.util.Random;
 
 public class Questioner {
-    private Random seed;
+    private final Random seed;
 
-    private static final int QuestionSize = 100;
+    public static final int QuestionSize = 100;
+    private static final int MaxGuessCount = 100000;
 
     private int answer;
+    private int guessed;
+    private int score;
+
+    public int getScore() {
+        return score;
+    }
 
     public enum Result{
         AnsIsSmaller,
@@ -17,6 +24,8 @@ public class Questioner {
     public Questioner(){
         seed = new Random();
         CreateNextAnswer();
+        guessed = 0;
+        score = 0;
     }
 
     private void CreateNextAnswer(){
@@ -24,7 +33,14 @@ public class Questioner {
     }
 
     public Result Guess(int answer){
+        guessed += 1;
+
+        if (guessed > MaxGuessCount){
+            throw new IllegalStateException("Max Count Achieved");
+        }
+
         if (this.answer == answer){
+            score++;
             CreateNextAnswer();
             return Result.Collect;
         }

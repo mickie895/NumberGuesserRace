@@ -1,34 +1,15 @@
 package com.gsoft.practice.numberguesser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 public class Main {
     public static void main(String[] args) {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        Questioner questioner = new Questioner();
 
-        Questioner question = new Questioner();
-        System.out.println("Input A Number.");
+        System.out.println("Auto guesser Activated...");
 
-        while(true) {
+        Guesser guesser = new Guesser(questioner);
+        guesser.GuessLoop();
 
-            try {
-                int inputted = Integer.parseInt(in.readLine());
-                switch (question.Guess(inputted)) {
-                    case AnsIsSmaller -> System.out.println("That is too big. Try smaller number.");
-                    case AnsIsBigger -> System.out.println("That is too small. Try bigger number.");
-                    case Collect -> System.out.println("That is it! New number selected.");
-                }
-            }
-            catch (NumberFormatException e){
-                System.out.println("That's not number.");
-                break;
-            } catch (IOException e) {
-                System.out.println("Something occurred.");
-                break;
-            }
-
-        }
+        System.out.print("Your score is ");
+        System.out.println(questioner.getScore());
     }
 }
